@@ -1,5 +1,3 @@
-# these methods are to be implemented
-
 # internal methods:
 
 def init_db():
@@ -48,7 +46,7 @@ def find_prefix(mdb:dict, prefix:str):
 # start from root mdb and returns root for end of prefix
 
 
-# iterative implementation of tree traversal with a branch buffer
+# iterative implementation of trie traversal with a branch buffer
 def iterate_suffixes(mdb:dict):
     suffixes = []
     branch_buffer = {}
@@ -61,17 +59,27 @@ def iterate_suffixes(mdb:dict):
             yield suffix                                            # we yield the suffix
             if branch_buffer:                                       # if branch buffer is not empty
                 suffix, branch_children = branch_buffer.popitem()   # we extract the last added suffix and its children from the buffer
-                child = branch_children.pop()[0]                    # pick one child for a current suffix: thus we branch
+
+                if not branch_children[0]:                       # in some situations a check is required, probably more than once (if so, we need while instead of if)
+                    yield suffix
+                    branch_children.pop()
+                    suffix, branch_children = branch_buffer.popitem()
+
+                if branch_children:                                 # if anything left from the previous iteration
+                    child = branch_children.pop()[0]                # pick one child for a current suffix: thus we branch
+                else:
+                    break
+
                 if branch_children:                                 # if any children for this suffix left to branch
                     branch_buffer[suffix] = branch_children         # we put them back into the buffer with their suffix as a key
                 
                 cur = mdb                      # here we step through all the suffix chars
                 for char in suffix:            # down or sub-trie to get to the branching node
                     cur = cur[char]
-                
-                else:
-                    suffix += child                
-                    cur = cur[child]           # here we switch to the current branch
+
+                suffix += child
+                cur = cur[child]                # here we switch to the current branch
+
             else:
                 break                          # if branch_buffer is empty and we reach the end of the word, no words left
         
@@ -122,5 +130,8 @@ def load_db(path:str=None):
 
 def get_suggestions(mdb:dict, prefix:str, limit:int=None):
     suffixes = retrive_suffixes_by_prefix(mdb=mdb, prefix=prefix, limit=limit)
-    suggestions = [prefix + suffix for suffix in suffixes]
-    return suggestions
+    if suffixes:
+        suggestions = [prefix + suffix for suffix in suffixes]
+        return suggestions
+    else:
+        return []

@@ -113,13 +113,17 @@ def test_get_suggestions():
     token_path = f'{_me_parent}/tests/tokens.txt'
     mdb = lib_search_sdk.load_db(token_path)
     prefix = 'ma'
+    prefix_not_found = 'ly'
     limit = 2
     expected_suggestions_unlim = {'marsaba', 'maramba', 'man', 'may'}
-    #acе
+    expected_suggestions_not_found = []
+    #act
     actual_suggestions_unlim = set(lib_search_sdk.get_suggestions(mdb, prefix))
     actual_suggestions_lim = lib_search_sdk.get_suggestions(mdb, prefix, limit)
+    actual_suggestions_not_found = lib_search_sdk.get_suggestions(mdb, prefix_not_found)
 
     assert actual_suggestions_unlim == expected_suggestions_unlim
     assert len(actual_suggestions_lim) == 2
     assert actual_suggestions_lim[0] in expected_suggestions_unlim
     assert actual_suggestions_lim[1] in expected_suggestions_unlim
+    assert actual_suggestions_not_found == expected_suggestions_not_found
