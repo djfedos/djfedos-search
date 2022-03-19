@@ -10,9 +10,10 @@ def add_to_db(mdb:dict, token:str):
     for char in token:
         if char not in cur:
             cur[char] = {}
-            token_added = True
         cur = cur[char]
-    cur[None] = None
+    if not None in cur:
+        cur[None] = None
+        token_added = True
     return token_added
 
 # return bool
@@ -60,7 +61,7 @@ def iterate_suffixes(mdb:dict):
             if branch_buffer:                                       # if branch buffer is not empty
                 suffix, branch_children = branch_buffer.popitem()   # we extract the last added suffix and its children from the buffer
 
-                while not branch_children[-1]:                      # in some situations a check is required even more than once
+                while branch_children and not branch_children[-1]:  # in some situations this check is required even more than once
                     yield suffix
                     branch_children.pop()
                     if branch_buffer:                               # without this condition test with 2466 tokens crashes
