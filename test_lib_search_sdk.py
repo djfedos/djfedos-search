@@ -127,3 +127,20 @@ def test_get_suggestions():
     assert actual_suggestions_lim[0] in expected_suggestions_unlim
     assert actual_suggestions_lim[1] in expected_suggestions_unlim
     assert actual_suggestions_not_found == expected_suggestions_not_found
+
+
+def test_iterate_suffixes_manual_found_bug():
+    #arrange
+    token_path = f'{_me_parent}/tests/1200_tokens.txt'
+    mdb = lib_search_sdk.load_db(token_path)
+    prefix = 'mi'
+    expected_suffixes = {'litary','ddle','ce','sty','st','screant','nd','nor','nt','ne'}
+    #act
+    isuffixes = lib_search_sdk.retrive_suffixes_by_prefix(mdb, prefix)
+    if isuffixes:
+        actual_suffixes = {suf for suf in isuffixes}
+    else:
+        actual_suffixes = None
+
+    assert actual_suffixes == expected_suffixes
+# lines 63 to 72 of the lib_search_sdk.py fix this issue

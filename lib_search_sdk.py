@@ -60,10 +60,11 @@ def iterate_suffixes(mdb:dict):
             if branch_buffer:                                       # if branch buffer is not empty
                 suffix, branch_children = branch_buffer.popitem()   # we extract the last added suffix and its children from the buffer
 
-                if not branch_children[0]:                       # in some situations a check is required, probably more than once (if so, we need while instead of if)
+                while not branch_children[-1]:                      # in some situations a check is required even more than once
                     yield suffix
                     branch_children.pop()
-                    suffix, branch_children = branch_buffer.popitem()
+                    if branch_buffer:                               # without this condition test with 2466 tokens crashes
+                        suffix, branch_children = branch_buffer.popitem()
 
                 if branch_children:                                 # if anything left from the previous iteration
                     child = branch_children.pop()[0]                # pick one child for a current suffix: thus we branch
