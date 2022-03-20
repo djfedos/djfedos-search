@@ -16,6 +16,10 @@ def add_to_db(mdb:dict, token:str):
         token_added = True
     return token_added
 
+"""
+O(n) where n is a token length
+"""
+
 # return bool
 # if this token is already in the db, it doesn't get added and add_to_db() returns False
 # if token is added, add_to_db() returns True
@@ -33,6 +37,10 @@ def iterable_tokens(path:str):
 
 # return iterable[str]
 
+"""
+O(n) where n is a number of tokens
+"""
+
 
 def find_prefix(mdb:dict, prefix:str):
     cur = mdb
@@ -42,6 +50,10 @@ def find_prefix(mdb:dict, prefix:str):
         else:
             return None
     return cur
+
+"""
+O(n) where n is a number of characters in a prefix
+"""
     
 # return dict
 # start from root mdb and returns root for end of prefix
@@ -88,16 +100,16 @@ def iterate_suffixes(mdb:dict):
         children = list(cur.keys())
         
         if children[-1]:                       # without this condition a nonsubscriptable type error occurs
-            child = children.pop()[0]
+            child = children.pop()[0]          # TODO: if [0] is nesseccary?
         else:
             child = {None:None}
             children.pop()            
         if children:
             branch_buffer[suffix] = children    # if cursor meets branch, it writes the suffix and the node children to the buffer
-        if child == {None:None}:
+        if child == {None:None}:                # TODO: keys() are iterator, I should use this property. Store iterators in brach_buffer
             cur = child
         else:
-            suffix += child
+            suffix += child                     # TODO: turn suffix into a list
             cur = cur[child]
     
     return suffixes
@@ -105,14 +117,18 @@ def iterate_suffixes(mdb:dict):
     # return iterable[str]
 
 
-def retrive_suffixes_by_prefix(mdb:dict, prefix:str, limit:int=None):
+def retrive_suffixes_by_prefix(mdb:dict, prefix:str, limit:int=10):
     subtrie = find_prefix(mdb=mdb, prefix=prefix)
     if subtrie:
         itsuf = iterate_suffixes(subtrie)
         if not limit:
             suffixes = [suf for suf in itsuf]
         else:
-            suffixes = [next(itsuf) for i in range(limit)]
+            try:
+                suffixes = [next(itsuf) for i in range(limit)]
+            except StopIteration:
+                itsuf = iterate_suffixes(subtrie)
+                suffixes = [suf for suf in itsuf]
         return suffixes
     else:
         return None
