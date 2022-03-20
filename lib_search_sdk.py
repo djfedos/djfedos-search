@@ -115,7 +115,7 @@ def iterate_suffixes(mdb:dict):
             else:
                 break
         
-        children = list(cur.keys())
+        children = list(cur.keys())  # TODO: continue from here
 
         # without this condition a nonsubscriptable type error occurs
         if children[-1]:
@@ -145,11 +145,12 @@ def retrive_suffixes_by_prefix(mdb:dict, prefix:str, limit:int=10):
         if not limit:
             suffixes = [suf for suf in itsuf]
         else:
-            try:
-                suffixes = [next(itsuf) for i in range(limit)]
-            except StopIteration:
-                itsuf = iterate_suffixes(subtrie)
-                suffixes = [suf for suf in itsuf]
+            suffixes = []
+            for suf in itsuf:
+                suffixes.append(suf)
+                limit -= 1
+                if limit == 0:
+                    return suffixes
         return suffixes
     else:
         return None
@@ -167,7 +168,7 @@ def load_db(path:str=None):
     return mdb
 
 
-def get_suggestions(mdb:dict, prefix:str, limit:int=None):
+def get_suggestions(mdb:dict, prefix:str, limit:int=10):
     suffixes = retrive_suffixes_by_prefix(mdb=mdb, prefix=prefix, limit=limit)
     if suffixes:
         suggestions = [prefix + suffix for suffix in suffixes]
