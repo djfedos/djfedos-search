@@ -124,11 +124,12 @@ def retrive_suffixes_by_prefix(mdb:dict, prefix:str, limit:int=10):
         if not limit:
             suffixes = [suf for suf in itsuf]
         else:
-            try:
-                suffixes = [next(itsuf) for i in range(limit)]
-            except StopIteration:
-                itsuf = iterate_suffixes(subtrie)
-                suffixes = [suf for suf in itsuf]
+            suffixes = []
+            for suf in itsuf:
+                suffixes.append(suf)
+                limit -= 1
+                if limit == 0:
+                    return suffixes
         return suffixes
     else:
         return None
