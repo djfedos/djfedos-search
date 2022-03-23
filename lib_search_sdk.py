@@ -60,47 +60,52 @@ O(n) where n is a number of characters in a prefix
 
 
 # iterative implementation of trie traversal with a branch buffer
-# TODO: keys() are iterator, so I should use this property to store iterators and not lists in the brach_buffer
-def iterate_suffixes(mdb:dict):
+
+def iterate_suffixes(mdb: dict):
     suffixes = []
     branch_buffer = {}
 
     suffix = []
     cur = mdb
-    
+
     while cur:
-        # when we reach the word end
+        # when we reach the suffix end
         if cur == {None: None}:
             # we turn the suffix into a string then yield it
             yield ''.join(suffix)
             # if branch buffer is not empty
-            # we extract the last added path to the branch and the branching node's children from the buffer
+            # we extract the last added path to the branch and the branching node's children iterator from the buffer
             if branch_buffer:
                 branch_path, branch_children = branch_buffer.popitem()
-                # in some situations this check is required even more than once
-                while branch_children and not branch_children[-1]:
-                    yield branch_path
-                    branch_children.pop()
-                    # without this condition test with 2466 tokens crashes
-                    if branch_buffer:
-                        branch_path, branch_children = branch_buffer.popitem()
+                # when iterator over node's children gets exhausted it will return NotImplements as a marker
+                child = next(branch_children, NotImplemented)
 
-                # if anything is left to process from the previous step
-                if branch_children:
-                    # pick one child for a current branch
-                    child = branch_children.pop()
+                # if child == None, the branch_path is a complete suffix itself, and we yield it now
+                if child == None:
+                    yield branch_path
+                    child = next(branch_children, NotImplemented)
+
+                # if the branch_children iterator is exhausted
+                while child == NotImplemented:
+                    # and there is something in the branch_buffer
+                    if branch_buffer:
+                        # we pop the last item from the branch buffer
+                        branch_path, branch_children = branch_buffer.popitem()
+                        # get the current child and check once again, maybe this branch_children iterator is exhausted too
+                        child = next(branch_children, NotImplemented)
+                    else:
+                        break
+
+                # if iterator have already got exhausted on previous steps, we don't return it to the branch buffer
+                # we must break from branch_buffer processing here to prevent passing NotImplemented as a key to the cur
+                if child != NotImplemented:
+                    branch_buffer[branch_path] = branch_children
                 else:
                     break
 
-                # if any children still left unattended for this branch
-                # we put them back into the buffer with the path to the branch as a key
-                if branch_children:
-                    branch_buffer[branch_path] = branch_children
-
-                # here we step through all the branch path chars
-                # down the sub-trie to get to the branching node
+                # here we step through all the branch path chars down the sub-trie to get to the branching node
                 # also we convert the branch_path to the beginning of the suffix
-                # suffix is a list to speed up appending characters to it
+                # suffix is a list, not a string, to speed up appending characters to it
                 cur = mdb
                 suffix = []
                 for char in branch_path:
@@ -108,31 +113,28 @@ def iterate_suffixes(mdb:dict):
                     suffix.append(char)
 
                 # and here we switch to the current branch
-                suffix.append(child)
-                cur = cur[child]
+                if child == None:
+                    cur = {None: None}
+                else:
+                    suffix.append(child)
+                    cur = cur[child]
 
-            # if branch_buffer is empty, and we reach the end of the word, no words left
-            else:
-                break
-        
-        children = list(cur.keys())  # TODO: continue from here
+        # the keys of the cur are the children of the current node, and we get an iterator over them
+        children = iter(cur.keys())
+        children_count = len(cur.keys())
+        child = next(children)
 
-        # without this condition a nonsubscriptable type error occurs
-        if children[-1]:
-            child = children.pop()
-        else:
-            child = {None:None}
-            children.pop()
-        # if cursor meets branch, it writes the suffix and the node children to the buffer
-        if children:
+        # if cursor meets branch, it writes the node information to the buffer
+        # suffix serves as a path to the node in a trie and children is the node children iterator
+        if children_count > 1:
             branch_path = ''.join(suffix)
             branch_buffer[branch_path] = children
-        if child == {None:None}:
-            cur = child
+        if child == None:
+            cur = {None:None}
         else:
             suffix.append(child)
             cur = cur[child]
-    
+
     return suffixes
 
     # return iterable[str]
