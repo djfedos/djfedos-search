@@ -94,7 +94,7 @@ def test_quantity_of_tokens_2466():
     mdb = lib_search_sdk.load_db(token_path)
     prefix = ''
     limit = None
-    # expected_quantity = 1200
+    # expected_quantity = 2466
     #act
     tokens = list(lib_search_sdk.iterable_tokens(token_path))
     suggestions = lib_search_sdk.get_suggestions(mdb, prefix, limit)
@@ -110,3 +110,16 @@ def test_quantity_of_tokens_2466():
 
     # assert actual_quantity == expected_quantity
     assert len(suggestions) == len(tokens)
+
+
+# This test ensures that when the branch_buffer is empty it won't cause an infinite loop
+def test_suggestions_for_aci_in_1200():
+    # arrange
+    expected_tokens = ['acidic']
+    token_path = f'{_me_parent}/tests/1200_tokens.txt'
+    mdb = lib_search_sdk.load_db(token_path)
+    prefix = 'aci'
+    # act
+    actual_tokens = lib_search_sdk.get_suggestions(mdb, prefix)
+
+    assert actual_tokens == expected_tokens
