@@ -88,7 +88,7 @@ def test_retrive_suffixes_by_prefix():
     prefix = 'ra'
     prefix_not_in_mdb = 'ly'
     expected_suffixes_unlim = {'b', 'ba'}
-    expected_suffixes_lim = {'b'}
+    expected_suffixes_lim = {'ba'}
     expected_suffixes_high_lim = {'b', 'ba'}
     limit = 1
     high_limit = 12

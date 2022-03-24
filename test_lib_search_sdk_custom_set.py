@@ -48,3 +48,65 @@ def test_get_suggestions_manually_found_bug():
     for full_token in full_tokens:
         assert lib_search_sdk.get_suggestions(mdb, full_token)[0].startswith(full_token)
     # add condition "if branch_children" to the line 64 of the lib_search_sdk.py to fix an issue
+
+
+# when I've implemented a version of lib_search_sdk that stores only iterators but not dicts in the branch_buffer,
+# I've manually found a bug, that is reproduced by this test
+def test_suggestions_for_f_in_1200():
+    #arrange
+    expected_tokens = {'flow', 'flower', 'flowery', 'flowers'}
+    token_path = f'{_me_parent}/tests/1200_tokens.txt'
+    mdb = lib_search_sdk.load_db(token_path)
+    prefix = 'flow'
+    # act
+    actual_tokens = set(lib_search_sdk.get_suggestions(mdb, prefix))
+
+    assert actual_tokens == expected_tokens
+
+
+def test_quantity_of_tokens_1200():
+    #arrange
+    token_path = f'{_me_parent}/tests/1200_tokens.txt'
+    mdb = lib_search_sdk.load_db(token_path)
+    prefix = ''
+    limit = None
+    # expected_quantity = 1200
+    #act
+    tokens = list(lib_search_sdk.iterable_tokens(token_path))
+    suggestions = lib_search_sdk.get_suggestions(mdb, prefix, limit)
+    # actual_quantity = len(suggestions)
+    q = 0
+    print('')
+    for token in tokens:
+        if token not in suggestions:
+            print(token)
+            q += 1
+    if q:
+        print(f'{q} tokens are missing on the output')
+
+    # assert actual_quantity == expected_quantity
+    assert len(suggestions) == len(tokens)
+
+
+def test_quantity_of_tokens_2466():
+    #arrange
+    token_path = f'{_me_parent}/tests/2466_tokens.txt'
+    mdb = lib_search_sdk.load_db(token_path)
+    prefix = ''
+    limit = None
+    # expected_quantity = 1200
+    #act
+    tokens = list(lib_search_sdk.iterable_tokens(token_path))
+    suggestions = lib_search_sdk.get_suggestions(mdb, prefix, limit)
+    # actual_quantity = len(suggestions)
+    q = 0
+    print('')
+    for token in tokens:
+        if token not in suggestions:
+            print(token)
+            q += 1
+    if q:
+        print(f'{q} tokens are missing on the output')
+
+    # assert actual_quantity == expected_quantity
+    assert len(suggestions) == len(tokens)
