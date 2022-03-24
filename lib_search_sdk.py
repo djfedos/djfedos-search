@@ -77,7 +77,7 @@ def iterate_suffixes(mdb: dict):
             # we extract the last added path to the branch and the branching node's children iterator from the buffer
             if branch_buffer:
                 branch_path, branch_children = branch_buffer.popitem()
-                # when iterator over node's children gets exhausted it will return NotImplements as a marker
+                # when the iterator over node's children gets exhausted it will return NotImplements as a marker
                 child = next(branch_children, NotImplemented)
 
                 # if child == None, the branch_path is a complete suffix itself, and we yield it now
@@ -96,12 +96,12 @@ def iterate_suffixes(mdb: dict):
                     else:
                         break
 
-                # if iterator have already got exhausted on previous steps, we don't return it to the branch buffer
+                # if the iterator have already got exhausted on previous steps, we don't return it to the branch buffer
                 # we must break from branch_buffer processing here to prevent passing NotImplemented as a key to the cur
-                if child != NotImplemented:
-                    branch_buffer[branch_path] = branch_children
-                else:
+                if child == NotImplemented:
                     break
+                else:
+                    branch_buffer[branch_path] = branch_children
 
                 # here we step through all the branch path chars down the sub-trie to get to the branching node
                 # also we convert the branch_path to the beginning of the suffix
@@ -118,6 +118,9 @@ def iterate_suffixes(mdb: dict):
                 else:
                     suffix.append(child)
                     cur = cur[child]
+            # to prevent an infinite loop if the branch buffer is empty
+            else:
+                break
 
         # the keys of the cur are the children of the current node, and we get an iterator over them
         children = iter(cur.keys())
