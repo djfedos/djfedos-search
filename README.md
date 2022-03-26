@@ -32,7 +32,7 @@ Example:
 ### 2. get_suggestions(mdb:dict, prefix:str, limit:int=10)
 
 To get suggestions, pass a token db returned by `load_db()` as a first argument,  a prefix as a
-second argument and optionally the limit, which is the maximum amount of suggestionsyou want to
+second argument and optionally the limit, which is the maximum amount of suggestions you want to
 get from this function. By default the limit is set to 10. If you want to get all the suggestions,
 pass `None` as a limit.
 
