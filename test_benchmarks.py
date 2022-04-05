@@ -57,7 +57,7 @@ class Timer:
         return elapsed_time
 
 
-def test_create_file(tmpdir, num_lines=100, max_length=10, cycles=1000, result_path='benchmark_results.csv'):
+def test_benchmark_load_db(tmpdir, num_lines=100, max_length=10, cycles=1000, result_path='benchmark_results.csv'):
     tfk = TokensFileCreator(tmpdir)
     bench_file = tfk.create_token_file(num_lines, max_length)
     timer = Timer()
@@ -76,7 +76,7 @@ def test_create_file(tmpdir, num_lines=100, max_length=10, cycles=1000, result_p
         bench_db = None
     average_time = total_time/cycles
 
-    header = ['num_of_runs', 'num_lines', 'max_length', 'average sec', 'max secs', 'min secs']
+    header = ['num_of_runs', 'num_lines', 'max_length', 'average_sec', 'max_secs', 'min_secs']
     benchmark_results = [cycles, num_lines, max_length, '{:4f}'.format(average_time), '{:6f}'.format(max_time), '{:6f}'.format(min_time)]
 
     if not Path(result_path).exists():
@@ -91,7 +91,45 @@ def test_create_file(tmpdir, num_lines=100, max_length=10, cycles=1000, result_p
         writer.writerow(benchmark_results)
 
 
-def test_plot_benchmarks(result_path='benchmark_results_max_length.csv', columns = ['max_length', 'average_sec']):
+def test_benchmark_get_suggestions_limits(tmpdir, num_lines=100, max_length=10,  prefix_length=0, limit=100, cycles=1000, result_path='get_suggestions_benchmark_limit.csv'):
+    tfk = TokensFileCreator(tmpdir)
+    bench_file = tfk.create_token_file(num_lines, max_length)
+    bench_db = lib_search_sdk.load_db(bench_file)
+    timer = Timer()
+    total_time = 0
+    min_time = float('inf')
+    max_time = 0
+    for _ in range(cycles):
+        prefix = ''.join([chr(randint(97, 97 + 26 - 1)) for _ in range(prefix_length)])
+        timer.start()
+        suggestions = lib_search_sdk.get_suggestions(bench_db, prefix, limit)
+        cycle_time = timer.stop()
+        total_time += cycle_time
+        if cycle_time < min_time:
+            min_time = cycle_time
+        if cycle_time > max_time:
+            max_time = cycle_time
+        print(suggestions)
+        suggestions = None
+
+    average_time = total_time / cycles
+
+    header = ['num_of_runs', 'prefix_length', 'limit', 'average_sec', 'max_secs', 'min_secs']
+    benchmark_results = [cycles, prefix_length, limit, '{:4f}'.format(average_time), '{:6f}'.format(max_time), '{:6f}'.format(min_time)]
+
+    if not Path(result_path).exists():
+        header_needed = True
+    else:
+        header_needed = False
+
+    with open(result_path, 'a', newline='') as benchmark_results_file:
+        writer = csv.writer(benchmark_results_file)
+        if header_needed:
+            writer.writerow(header)
+        writer.writerow(benchmark_results)
+
+
+def test_plot_benchmarks(result_path='get_suggestions_benchmark_limit.csv', columns = ['limit', 'average_sec']):
     if not Path(result_path).exists():
         raise FileExistsError("File does not exist, please check the file name")
     plt.rcParams["figure.figsize"] = [7.00, 3.50]
