@@ -24,6 +24,18 @@ class TokensFileCreator:
                 token_file.write('\n')
         return path
 
+    def create_one_char_token_file(self, num_lines:int=100):
+        token_file_uuid = uuid4()
+        path = self.workdir
+        path += f'/tokens_{token_file_uuid}.txt'
+        line = ''
+        with open(path, 'a') as token_file:
+            for _ in range(num_lines):
+                line += 'a'
+                token_file.write(line)
+                token_file.write('\n')
+        return path
+
 
 class TimerError(Exception):
     """A custom exception used to report errors in use of Timer class"""
@@ -129,7 +141,44 @@ def test_benchmark_get_suggestions_limits(tmpdir, num_lines=100, max_length=10, 
         writer.writerow(benchmark_results)
 
 
-def test_plot_benchmarks(result_path='get_suggestions_benchmark_limit.csv', columns = ['limit', 'average_sec']):
+def test_benchmark_get_suggestions_prefix(tmpdir, num_lines=100, prefix_length=50, limit=100, cycles=1000, result_path='get_suggestions_benchmark_prefix.csv'):
+    tfk = TokensFileCreator(tmpdir)
+    bench_file = tfk.create_one_char_token_file(num_lines)
+    bench_db = lib_search_sdk.load_db(bench_file)
+    timer = Timer()
+    total_time = 0
+    min_time = float('inf')
+    max_time = 0
+    for _ in range(cycles):
+        prefix = ''.join(['a' for _ in range(prefix_length)])
+        timer.start()
+        suggestions = lib_search_sdk.get_suggestions(bench_db, prefix, limit)
+        cycle_time = timer.stop()
+        total_time += cycle_time
+        if cycle_time < min_time:
+            min_time = cycle_time
+        if cycle_time > max_time:
+            max_time = cycle_time
+        suggestions = None
+
+    average_time = total_time / cycles
+
+    header = ['num_of_runs', 'prefix_length', 'limit', 'average_sec', 'max_secs', 'min_secs']
+    benchmark_results = [cycles, prefix_length, limit, '{:4f}'.format(average_time), '{:6f}'.format(max_time), '{:6f}'.format(min_time)]
+
+    if not Path(result_path).exists():
+        header_needed = True
+    else:
+        header_needed = False
+
+    with open(result_path, 'a', newline='') as benchmark_results_file:
+        writer = csv.writer(benchmark_results_file)
+        if header_needed:
+            writer.writerow(header)
+        writer.writerow(benchmark_results)
+
+
+def test_plot_benchmarks(result_path='get_suggestions_benchmark_prefix.csv', columns = ['prefix_length', 'average_sec']):
     if not Path(result_path).exists():
         raise FileExistsError("File does not exist, please check the file name")
     plt.rcParams["figure.figsize"] = [7.00, 3.50]
