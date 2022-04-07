@@ -39,6 +39,7 @@ class TokensFileCreator:
 
 class TimerError(Exception):
     """A custom exception used to report errors in use of Timer class"""
+    pass
 
 
 class Timer:
@@ -103,7 +104,7 @@ def test_benchmark_load_db(tmpdir, num_lines=100, max_length=10, cycles=1000, re
         writer.writerow(benchmark_results)
 
 
-def test_benchmark_get_suggestions_limits(tmpdir, num_lines=100, max_length=10,  prefix_length=0, limit=100, cycles=1000, result_path='get_suggestions_benchmark_limit.csv'):
+def test_benchmark_get_suggestions_limits(tmpdir, num_lines=100, max_length=10,  prefix_length=0, limit=200, cycles=1000, result_path='get_suggestions_benchmark_limit.csv'):
     tfk = TokensFileCreator(tmpdir)
     bench_file = tfk.create_token_file(num_lines, max_length)
     bench_db = lib_search_sdk.load_db(bench_file)
@@ -121,7 +122,7 @@ def test_benchmark_get_suggestions_limits(tmpdir, num_lines=100, max_length=10, 
             min_time = cycle_time
         if cycle_time > max_time:
             max_time = cycle_time
-        print(suggestions)
+        # print(suggestions)
         suggestions = None
 
     average_time = total_time / cycles
@@ -178,7 +179,7 @@ def test_benchmark_get_suggestions_prefix(tmpdir, num_lines=100, prefix_length=5
         writer.writerow(benchmark_results)
 
 
-def test_plot_benchmarks(result_path='get_suggestions_benchmark_prefix.csv', columns = ['prefix_length', 'average_sec']):
+def test_plot_benchmarks(result_path='get_suggestions_benchmark_limit.csv', columns = ['limit', 'average_sec']):
     if not Path(result_path).exists():
         raise FileExistsError("File does not exist, please check the file name")
     plt.rcParams["figure.figsize"] = [7.00, 3.50]
