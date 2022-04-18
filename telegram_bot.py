@@ -41,8 +41,7 @@ def set_limit(message):
 
     if len(lim_req) == 1:
         bot.reply_to(message, f"Currently limit is {limit}")
-
-    if len(lim_req) == 2:
+    elif len(lim_req) == 2:
         lim_value = lim_req[1]
         if lim_value == 'None':
             limit = None
@@ -64,6 +63,6 @@ def get_suggs(message):
     suggs = '\n'.join(suggestions)
     bot.reply_to(message, suggs)
 
-
+bot.remove_webhook()
 bot.polling()
 
