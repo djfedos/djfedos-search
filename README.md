@@ -14,6 +14,13 @@ Then it takes a prefix (any given string of characters) as an input and returns 
 First of all, it can be used as an engine behind the user input suggestion, like in searching
 engines.
 
+## How to try it out quickly?
+
+To try out the library with a decent example base of tokens in a convenient web interface
+launch pywebio_app.py.
+There is also a FastAPI-based web API, implemented in fapi_server.py. While running it will
+reply to queries.
+
 ## How to use it?
 
 The library itself is if `lib_search_sdk.py` file. In order to use it import it as a module.
@@ -68,6 +75,11 @@ Lists of tokens for tests are in the `tests` folder.
 
 There is also a file called `test_lib_search_sdk_manual.py` that allows a pretty convenient
 manual testing.
+
+## Benchmarks
+To benchmark the performance of the library in different scenarios, use test_benchmarks.py
+with pytest module. There are several functions for benchmarking that support semi-automated
+workflow.
 
 ## Authors
 This library is written by Fedor Ivashchenko
