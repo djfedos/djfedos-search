@@ -12,7 +12,7 @@ def main():
     while True:
         prefix_lim = pwb.input.input_group('Input prefix and set limit:',
             [pwb.input.input('Enter any prefix you like to try it out, use lowercase latin letters', name='prefix', placeholder='prefix'),
-            pwb.input.input('Set maximum suggestion count. For 10 leave blank', name='limit', type=pwb.input.NUMBER)])
+            pwb.input.input('Set maximum suggestion count. For 10 leave blank. Set to zero or a negative number to remove the limit', name='limit', type=pwb.input.NUMBER)])
 
         prefix = prefix_lim['prefix']
 

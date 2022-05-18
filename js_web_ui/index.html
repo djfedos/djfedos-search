@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!-- This web UI is made more of less following this tutorial: https://youtu.be/1iysNUrI3lw -->
+<!-- Instead of a simple JS sugesstion engine this one relies on djfedos-search python library -->
+<!-- Data is requested and fetched via HTTP from FastAPI -->
+<!-- CSS theme file is taken from https://bootswatch.com (Litera theme) -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <title>djfedos-search demo web UI - trie-based suggestion engine</title>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 m-auto">
+        <h3 class="text-center mb-3">
+          Suggestion engine demo web UI
+        </h3>
+        <div class="form-group">
+          <input type="text" id="search" class="form-control form-control-lg" placeholder="Enter a prefix here...">
+        </div>
+        <div id="match-list">
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>
