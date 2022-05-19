@@ -8,6 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://kit.fontawesome.com/2635ae95d0.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <title>djfedos-search demo web UI - trie-based suggestion engine</title>
 </head>
@@ -18,11 +19,17 @@
         <h3 class="text-center mb-3">
           Suggestion engine demo web UI
         </h3>
-        <div class="form-group">
+        <!-- The CSS in lines below is according to this video: https://youtu.be/QxMBHi_ZiT8 -->
+        <!-- It makes use of Font Awesome search icon and it's too small to create a new CSS file for it-->
+        <div class="form-group" style="position: relative">
           <input type="text" id="search" class="form-control form-control-lg" placeholder="Enter a prefix here...">
+            <div id="icon" style="position: absolute; top: 0; right: 0; height: 55px; width: 55px; line-height: 55px; text-align: center; font-size: 20px; cursor: pointer;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
         </div>
+        
         <div id="match-list">
-        </div>
+      </div>
       </div>
     </div>
   </div>
