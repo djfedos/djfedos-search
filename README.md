@@ -16,9 +16,9 @@ engines.
 
 ## How to try it out quickly?
 
-There is a FastAPI-based web API implemented in `fapi_server.py`. While running it will
-reply to queries. Run it, load a list of tokens and you can open js_web_ui/index.html
-in a browser and try out a demo suggestion web app.
+There is a FastAPI-based web API in `fapi_server.py`. While running it will reply to queries.
+Run it, load a list of tokens and you can open js_web_ui/index.html in a browser and try out
+a demo suggestion web app.
 Also to try out the library with a decent example base of tokens in a convenient web interface
 you can launch `neat_pywebio_app.py`.
 
