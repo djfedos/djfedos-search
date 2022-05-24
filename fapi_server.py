@@ -4,7 +4,6 @@
 from typing import Optional
 import uvicorn
 from fastapi import FastAPI
-import lib_search_sdk
 from fastapi.middleware.cors import CORSMiddleware
 from urllib.parse import unquote
 import lib_search_sdk

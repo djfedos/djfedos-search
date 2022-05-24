@@ -1,0 +1,7 @@
+fastapi
+pathlib
+pytest
+pandas
+matplotlib
+pyTelegramBotAPI
+python-decouple
