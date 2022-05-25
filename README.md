@@ -17,7 +17,7 @@ engines.
 ## How to try it out quickly?
 
 Here is a live web UI of the demo: http://yairdar.info:8000 
-You also can run it< and that's how:
+You also can run it, and that's how:
 1. There is a FastAPI-based web API in `fapi_server.py`. While running it will reply to queries.
 2. Run it, load a list of tokens and you can open `js_web_ui/index.html` in a browser and try out
 a demo suggestion web app.
