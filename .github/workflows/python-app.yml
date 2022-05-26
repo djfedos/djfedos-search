@@ -36,5 +36,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        python fapi_server.py
         pytest test_lib_search_sdk.py test_lib_search_sdk_custom_set.py
