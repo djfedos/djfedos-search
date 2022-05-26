@@ -75,11 +75,13 @@ def read_root():
 
 
 # fixed this method to take a path as a query like this: host/load_db?path=folder/token_file.txt
-@app.get("/load_db")
-def load_db(path: str):
-    p = unquote(path)
-    token_path = f'{_me_parent}/{p}'
-    _impl_db.load_db(path=token_path)
+@app.get("/load_db/{path}")
+def load_db(path: str, q: Optional[str] = None):
+    # here is a workaround to load db from folders
+    if q:
+        path += '/' + q
+    # so load them like this: /load_db/%folder_name%?q=%rest_of_the_path%
+    _impl_db.load_db(path=path)
     resp = {"path": path, "len": len(_impl_db._db)}
     return resp
 
