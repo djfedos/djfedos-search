@@ -1,7 +1,9 @@
 fastapi
+uvicron
 pathlib
 pytest
 pandas
 matplotlib
 pyTelegramBotAPI
 python-decouple
+pywebio
