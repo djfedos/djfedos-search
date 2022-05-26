@@ -1,5 +1,5 @@
 fastapi
-uvicron
+uvicorn
 pathlib
 pytest
 pandas
