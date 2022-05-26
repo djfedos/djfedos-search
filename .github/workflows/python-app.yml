@@ -37,4 +37,4 @@ jobs:
     - name: Test with pytest
       run: |
         python fapi_server.py
-        pytest test_lib_search_sdk.py test_lib_search_sdk_custom_set.py test_fapi_server.py
+        pytest test_lib_search_sdk.py test_lib_search_sdk_custom_set.py
