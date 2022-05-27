@@ -9,9 +9,9 @@ were discovered manually.
 Lists of tokens for tests are in the `tests` folder.
 
 There is also a test for FastAPI server in `test_fapi_server.py`.
-All those three tests run automatically on every commit pushed to the project's 
+
+Those three tests run automatically on every commit push to the
 [GitHub repository](https://github.com/djfedos/djfedos-search).
 
-
-There is also a file called `test_lib_search_sdk_manual.py` that allows a pretty convenient
+There is an additional tool called `test_lib_search_sdk_manual.py` that allows convenient
 manual testing.
