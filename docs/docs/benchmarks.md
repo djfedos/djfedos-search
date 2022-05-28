@@ -37,5 +37,5 @@ this benchmark emulates a pretty unrealistic worst case scenario. It generates a
 ## test_plot_benchmarks()
 This method allows plotting benchmark results as a graph from the .csv file. It's useful when you make several benchmark runs with different parameters.
 
-* result_path:str: path to th .csv file with benchmark results
+* result_path:str: path to the .csv file with benchmark results
 * columns:List(str): columns with data to plot in ['x','y'] form, where 'x' is the name of horizontal axis data and 'y' is the name of vertical axis data.
