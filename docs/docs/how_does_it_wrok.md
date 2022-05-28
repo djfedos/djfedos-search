@@ -1,4 +1,7 @@
-## How does it work?
+---
+hide:
+  - toc
+---
 
 First it takes a list of words as an input. It turns this list into a trie aka a prefix tree.
 Then it takes a prefix (any given string of characters) as an input and returns the words
@@ -23,5 +26,3 @@ given prefix.
 
 For even more details you're always welcome [to read the source code](https://github.com/djfedos/djfedos-search)
 and ask me any questions.
-
-

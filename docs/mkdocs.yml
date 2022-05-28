@@ -1,3 +1,14 @@
+markdown_extensions:
+  - meta
 site_name: djfedos-search
 url: https://djfedos.github.io/djfedos-search
-theme: litera
+theme: material
+nav:
+  - About: 'index.md'
+  - 'How does it work': 'how_does_it_wrok.md'
+  - 'How to run demo in local environment': 'how_to_run_local_demo.md'
+  - 'How to use the library': 'how_to_use.md'
+  - Tests: 'tests.md'
+  - Benchmarks: 'benchmarks.md'
+extra_css:
+  - css/extra.css

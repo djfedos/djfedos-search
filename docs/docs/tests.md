@@ -1,4 +1,8 @@
-## Tests
+---
+hide:
+  - toc
+---
+
 This library comes with two sets of tests. Use pytest to run them.
 
 1. `test_lib_search_sdk.py` contains unit tests. This is the main set of tests.

@@ -1,4 +1,7 @@
-## How to use the library in my project?
+---
+hide:
+  - toc
+---
 
 The library itself is in the `lib_search_sdk.py` file. In order to use it, import it:
 

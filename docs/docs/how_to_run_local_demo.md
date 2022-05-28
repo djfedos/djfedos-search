@@ -1,4 +1,7 @@
-## How to run a demo in my own environment
+---
+hide:
+  - toc
+---
 
 There is a FastAPI-based web API in [`fapi_server.py`](https://github.com/djfedos/djfedos-search/blob/main/lib_search_sdk.py). While running, it will reply 
 to the queries.
