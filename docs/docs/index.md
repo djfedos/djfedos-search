@@ -3,6 +3,8 @@ hide:
   - toc
 ---
 
+# djfedos-search
+
 > _djfedos-search_ is a python library that implements a quick search of a token by its prefix.
 
 
