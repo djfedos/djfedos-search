@@ -80,8 +80,8 @@ def iterate_suffixes(mdb: dict):
                 # when the iterator over node's children gets exhausted it will return NotImplements as a marker
                 child = next(branch_children, NotImplemented)
 
-                # if child == None, the branch_path is a complete suffix itself, and we yield it now
-                if child == None:
+                # if child is None, the branch_path is a complete suffix itself, and we yield it now
+                if child is None:
                     yield branch_path
                     child = next(branch_children, NotImplemented)
 
@@ -113,7 +113,7 @@ def iterate_suffixes(mdb: dict):
                     suffix.append(char)
 
                 # and here we switch to the current branch
-                if child == None:
+                if child is None:
                     cur = {None: None}
                 else:
                     suffix.append(child)
@@ -132,7 +132,7 @@ def iterate_suffixes(mdb: dict):
         if children_count > 1:
             branch_path = ''.join(suffix)
             branch_buffer[branch_path] = children
-        if child == None:
+        if child is None:
             cur = {None:None}
         else:
             suffix.append(child)
