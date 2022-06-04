@@ -1,0 +1,56 @@
+# https://taskfile.dev
+
+version: "3"
+# this Taskfile
+
+vars:
+  GREETING: |-
+    Usage: task prepub, task p              prepare up to date docs pages to push to github.io
+    You might as well do any step separately:
+    task build                              build the docs
+    task rename-site                        rename folder with pages
+    task purge-destination                  delete obsolete pages from local github.io repo
+    task move-site                          move folder with pages to github.io repo
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+      - task -a
+    silent: true
+
+  build:
+    cmds:
+      # feel free to edit and add paths if necessary
+      - cd docs && mkdocs build
+    status:
+      - test -d docs/site
+
+  rename-site:
+    cmds:
+      - mv ./docs/site docs/djfedos-search
+    status:
+      - test -d docs/djfedos-search
+
+  purge-destination:
+    cmds:
+      - rm -r ~/repos/djfedos.github.io/djfedos-search
+    status:
+      - test ! -d ~/repos/djfedos.github.io/djfedos-search
+
+  move-site:
+    cmds:
+      - mv ./docs/djfedos-search ~/repos/djfedos.github.io
+    status:
+      - test -d ~/repos/djfedos.github.io/djfedos-search
+
+  prepub:
+    cmds:
+      - task build
+      - task rename-site
+      - task purge-destination
+      - task move-site
+
+  p:
+    cmds:
+      - task prepub

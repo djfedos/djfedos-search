@@ -1,7 +1,6 @@
 markdown_extensions:
   - meta
 site_name: djfedos-search
-url: https://djfedos.github.io/djfedos-search
 theme: material
 nav:
   - About: 'index.md'
