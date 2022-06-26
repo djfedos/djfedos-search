@@ -10,5 +10,6 @@ engines. [Here you can try it out](http://yairdar.info:8000) in this role.
 
 ## Authors
 This [library](https://github.com/djfedos/djfedos-search/blob/main/lib_search_sdk.py) and its
-[demo web app](http://yairdar.info:8000) is written by Fedor Ivashchenko under the guidance 
+[demo web app](http://yairdar.info:8000) is written by
+[Fedor Ivashchenko](https://www.linkedin.com/in/djfedos) under the guidance 
 of [Yair Dar](https://www.linkedin.com/in/yair-dar-62962742)
