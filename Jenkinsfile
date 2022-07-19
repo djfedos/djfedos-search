@@ -8,6 +8,7 @@ pipeline {
             
             steps {
                 echo 'building docs'
+                sh 'task build'
             }
         }
         stage("move-built-docs") {
