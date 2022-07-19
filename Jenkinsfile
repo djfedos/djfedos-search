@@ -7,7 +7,7 @@ pipeline {
         stage("build-docs") {
             
             steps {
-                sh 'python --version'
+                sh 'pip install mkdocs mkdocs-material'
                 echo 'building docs'
                 sh 'task build'
             }
