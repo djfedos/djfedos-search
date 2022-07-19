@@ -25,4 +25,10 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '/test-pipeline/docs/site/*', onlyIfSuccessful: true
+        }
+    }
 }
