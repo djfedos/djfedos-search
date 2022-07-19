@@ -7,6 +7,7 @@ pipeline {
         stage("build-docs") {
             
             steps {
+                sh 'python --version'
                 echo 'building docs'
                 sh 'task build'
             }
