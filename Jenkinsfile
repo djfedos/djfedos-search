@@ -28,7 +28,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '/var/jenkins_home/workspace/test-pipeline/docs/site/*', onlyIfSuccessful: true
+            archiveArtifacts artifacts: '/docs/site/*', onlyIfSuccessful: true
         }
     }
 }
