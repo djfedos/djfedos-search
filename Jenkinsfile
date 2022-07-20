@@ -30,7 +30,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'docs.tar', onlyIfSuccessful: true
+            archiveArtifacts artifacts: 'docs.tar, docs/djfedos-search/**/*.*', onlyIfSuccessful: true
         }
     }
 }
