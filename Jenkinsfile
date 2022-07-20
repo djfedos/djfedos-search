@@ -12,23 +12,25 @@ pipeline {
                 sh 'task build'
             }
         }
-        stage("move-built-docs") {
+        stage("rename-docs-folder") {
             
             steps {
-                echo 'moving built docs to the doc repo'
+                sh 'task rename-site'
+                echo 'docs folder renamed to match the repo structure'
             }
         }
-        stage("push-built-docs") {
+        stage("pack-docs-to-one-artifact-file") {
             
             steps {
-                echo 'pushing the built docs'
+                sh 'task tar'
+                echo 'docs folder is packed into a single file and is ready to be archived as an artifact'
             }
         }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: 'docs/site/*', onlyIfSuccessful: true
+            archiveArtifacts artifacts: 'docs.tar', onlyIfSuccessful: true
         }
     }
 }
