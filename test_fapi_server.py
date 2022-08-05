@@ -2,7 +2,6 @@
 
 def test_read_root():
     # arrange
-    from fastapi import FastAPI
     from fastapi.testclient import TestClient
     from fapi_server import app
     client = TestClient(app)
@@ -18,7 +17,6 @@ def test_read_root():
 
 def test_load_db():
     # arrange
-    from fastapi import FastAPI
     from fastapi.testclient import TestClient
     from fapi_server import app
     client = TestClient(app)
@@ -33,7 +31,6 @@ def test_load_db():
 
 def test_add_to_db():
     # arrange
-    from fastapi import FastAPI
     from fastapi.testclient import TestClient
     from fapi_server import app
     client = TestClient(app)
@@ -58,7 +55,6 @@ def test_add_to_db():
 
 def test_get_suggestions():
     # arrange
-    from fastapi import FastAPI
     from fastapi.testclient import TestClient
     from fapi_server import app
     client = TestClient(app)
