@@ -26,5 +26,5 @@ engines.
 
 This [library](https://github.com/djfedos/djfedos-search/blob/main/lib_search_sdk.py) and its
 [demo web app](http://yairdar.info:8000) is written by 
-[Fedor Ivashchenko](https://www.linkedin.com/in/djfedos) under the guidance 
-of [Yair Dar](https://www.linkedin.com/in/yair-dar-62s962742)
+[Fedor Ivashchenko](https://djfedos.github.io) under the guidance 
+of [Yair Dar](https://yairdar.github.io)
