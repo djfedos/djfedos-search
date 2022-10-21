@@ -4,9 +4,10 @@ This is the set of regression tests that reproduce conditions for the bugs that 
 
 from importlib.machinery import SourceFileLoader
 from pathlib import Path
-lib_search_sdk = SourceFileLoader('lib_search_sdk', '../lib_search_sdk.py').load_module()
-
 _me_parent = Path(__file__).absolute().parent
+_one_level_up = _me_parent.parent
+lib_search_sdk_path = f'{_one_level_up}/lib_search_sdk.py'
+lib_search_sdk = SourceFileLoader('lib_search_sdk', lib_search_sdk_path).load_module()
 
 def test_iterate_suffixes_manually_found_bug():
     #arrange

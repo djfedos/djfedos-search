@@ -4,10 +4,10 @@ This is the set of unit test. It tests the behavior of each function in lib_test
 
 from importlib.machinery import SourceFileLoader
 from pathlib import Path
-lib_search_sdk = SourceFileLoader('lib_search_sdk', '../lib_search_sdk.py').load_module()
-
-
 _me_parent = Path(__file__).absolute().parent
+_one_level_up = _me_parent.parent
+lib_search_sdk_path = f'{_one_level_up}/lib_search_sdk.py'
+lib_search_sdk = SourceFileLoader('lib_search_sdk', lib_search_sdk_path).load_module()
 
 
 def test_init_db():

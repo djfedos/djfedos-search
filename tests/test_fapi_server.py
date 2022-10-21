@@ -1,7 +1,11 @@
 
 from importlib.machinery import SourceFileLoader
 from fastapi.testclient import TestClient
-app = SourceFileLoader('fapi_server', '../fapi_server.py').load_module().app
+from pathlib import Path
+_me_parent = Path(__file__).absolute().parent
+_one_level_up = _me_parent.parent
+fapi_server_path = f'{_one_level_up}/fapi_server.py'
+app = SourceFileLoader('fapi_server', fapi_server_path).load_module().app
 
 
 def test_read_root():
