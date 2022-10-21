@@ -1,16 +1,16 @@
 """
-This is the set of custom tests that reproduce conditions for the bugs that were found manually.
-If any of those tests breaks it means that something goes wrong
+This is the set of regression tests that reproduce conditions for the bugs that were found manually and fixed.
 """
 
-import lib_search_sdk
+from importlib.machinery import SourceFileLoader
 from pathlib import Path
+lib_search_sdk = SourceFileLoader('lib_search_sdk', '../lib_search_sdk.py').load_module()
 
 _me_parent = Path(__file__).absolute().parent
 
 def test_iterate_suffixes_manually_found_bug():
     #arrange
-    token_path = f'{_me_parent}/tests/1200_tokens.txt'
+    token_path = f'{_me_parent}/1200_tokens.txt'
     mdb = lib_search_sdk.load_db(token_path)
     prefix = 'mi'
     expected_suffixes = {'litary','ddle','ce','sty','st','screant','nd','nor','nt','ne'}
@@ -28,7 +28,7 @@ def test_iterate_suffixes_manually_found_bug():
 def test_add_to_db_manually_found_bug():
     #arrange
     mdb = {}
-    token_path = f'{_me_parent}/tests/2466_tokens.txt'
+    token_path = f'{_me_parent}/2466_tokens.txt'
     itokens = lib_search_sdk.iterable_tokens(path=token_path)
     #act
     for itoken in itokens:
@@ -42,7 +42,7 @@ def test_get_suggestions_manually_found_bug():
     'cows', 'damaged', 'fearful', 'handy', 'nutritious', 'skin', 'rightful', 'needle', 'town', 'tired', 'caption', 'tickle',
     'earthquake', 'bite', 'earth', 'rainy', 'start', 'capricious', 'early', 'paste', 'skip', 'handsomely', 'hands', 'bite-sized',
     'needless', 'plane', 'damage', 'damaging', 'skinny', 'earthy']
-    token_path = f'{_me_parent}/tests/2466_tokens.txt'
+    token_path = f'{_me_parent}/2466_tokens.txt'
     mdb = lib_search_sdk.load_db(token_path)
     #act
     for full_token in full_tokens:
@@ -55,7 +55,7 @@ def test_get_suggestions_manually_found_bug():
 def test_suggestions_for_f_in_1200():
     #arrange
     expected_tokens = {'flow', 'flower', 'flowery', 'flowers'}
-    token_path = f'{_me_parent}/tests/1200_tokens.txt'
+    token_path = f'{_me_parent}/1200_tokens.txt'
     mdb = lib_search_sdk.load_db(token_path)
     prefix = 'flow'
     # act
@@ -66,7 +66,7 @@ def test_suggestions_for_f_in_1200():
 
 def test_quantity_of_tokens_1200():
     #arrange
-    token_path = f'{_me_parent}/tests/1200_tokens.txt'
+    token_path = f'{_me_parent}/1200_tokens.txt'
     mdb = lib_search_sdk.load_db(token_path)
     prefix = ''
     limit = None
@@ -90,7 +90,7 @@ def test_quantity_of_tokens_1200():
 
 def test_quantity_of_tokens_2466():
     #arrange
-    token_path = f'{_me_parent}/tests/2466_tokens.txt'
+    token_path = f'{_me_parent}/2466_tokens.txt'
     mdb = lib_search_sdk.load_db(token_path)
     prefix = ''
     limit = None
@@ -116,7 +116,7 @@ def test_quantity_of_tokens_2466():
 def test_suggestions_for_aci_in_1200():
     # arrange
     expected_tokens = ['acidic']
-    token_path = f'{_me_parent}/tests/1200_tokens.txt'
+    token_path = f'{_me_parent}/1200_tokens.txt'
     mdb = lib_search_sdk.load_db(token_path)
     prefix = 'aci'
     # act

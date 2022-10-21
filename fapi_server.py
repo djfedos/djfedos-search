@@ -5,7 +5,6 @@ from typing import Optional
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from urllib.parse import unquote
 import lib_search_sdk
 from pathlib import Path
 
@@ -16,7 +15,7 @@ app = FastAPI()
 """
 the block below is a quick fix for "Access to fetch at from origin has been blocked by CORS policy: No 'Access-Control-Allow-Origin'" error
 solution is taken from https://stackoverflow.com/questions/65635346/how-can-i-enable-cors-in-fastapi
-an error occured when I've tried to send requests from a JS web UI
+an error occurred when I've tried to send requests from a JS web UI
 """
 origins = ["*"]
 app.add_middleware(

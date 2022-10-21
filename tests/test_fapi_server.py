@@ -1,9 +1,11 @@
 
+from importlib.machinery import SourceFileLoader
+from fastapi.testclient import TestClient
+app = SourceFileLoader('fapi_server', '../fapi_server.py').load_module().app
+
 
 def test_read_root():
     # arrange
-    from fastapi.testclient import TestClient
-    from fapi_server import app
     client = TestClient(app)
 
     # act
@@ -17,22 +19,19 @@ def test_read_root():
 
 def test_load_db():
     # arrange
-    from fastapi.testclient import TestClient
-    from fapi_server import app
     client = TestClient(app)
 
     # act
-    response = client.get("/load_db/tests?q=2466_tokens.txt")
+    response = client.get("/load_db/2466_tokens.txt")
     data = response.json()
 
     # assert
     assert response.status_code == 200
     assert data["len"] == 26
 
+
 def test_add_to_db():
     # arrange
-    from fastapi.testclient import TestClient
-    from fapi_server import app
     client = TestClient(app)
     token1 = "tok_tester"
     token2 = "tok_tester_2"
@@ -55,10 +54,8 @@ def test_add_to_db():
 
 def test_get_suggestions():
     # arrange
-    from fastapi.testclient import TestClient
-    from fapi_server import app
     client = TestClient(app)
-    client.get("/load_db/tests?q=2466_tokens.txt")
+    client.get("/load_db/2466_tokens.txt")
     prefix = "sympt"
     
     # act
@@ -70,4 +67,3 @@ def test_get_suggestions():
     assert data["prefix"] == prefix
     assert data["limit"] == 10
     assert data["result"] == ['symptomatic']
-
