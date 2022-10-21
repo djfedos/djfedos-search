@@ -2,11 +2,12 @@
 This is the set of unit test. It tests the behavior of each function in lib_test_sdk.py
 """
 
-
-import lib_search_sdk
+from importlib.machinery import SourceFileLoader
 from pathlib import Path
-
 _me_parent = Path(__file__).absolute().parent
+_one_level_up = _me_parent.parent
+lib_search_sdk_path = f'{_one_level_up}/lib_search_sdk.py'
+lib_search_sdk = SourceFileLoader('lib_search_sdk', lib_search_sdk_path).load_module()
 
 
 def test_init_db():
@@ -35,7 +36,7 @@ def test_add_to_db():
 
 def test_iterable_tokens():
     #arrange
-    token_path = f'{_me_parent}/tests/tokens.txt'
+    token_path = f'{_me_parent}/tokens.txt'
     expected_tokens = {'marsaba', 'maramba', 'man', 'may', 'bar', 'baron', 'banya', 'raba', 'rab'}
     #act
     tokens = lib_search_sdk.iterable_tokens(token_path)
@@ -49,7 +50,7 @@ def test_find_prefix():
     expected_subtrie = {'b':{'a':{None:None}, None:None}}
     prefix = 'ra'
     prefix_not_in_mdb = 'ly'
-    token_path = f'{_me_parent}/tests/tokens.txt'
+    token_path = f'{_me_parent}/tokens.txt'
     mdb = lib_search_sdk.load_db(token_path)
     #act
     actual_subtrie = lib_search_sdk.find_prefix(mdb, prefix)
@@ -83,7 +84,7 @@ def test_iterate_suffixes_mid():
 
 def test_retrive_suffixes_by_prefix():
     #arrange
-    token_path = f'{_me_parent}/tests/tokens.txt'
+    token_path = f'{_me_parent}/tokens.txt'
     mdb = lib_search_sdk.load_db(token_path)
     prefix = 'ra'
     prefix_not_in_mdb = 'ly'
@@ -109,7 +110,7 @@ def test_load_db():
     expected_db = {'m':{'a': {'r': {'s': {'a': {'b': {'a': {None: None}}}}, 'a': {'m': {'b': {'a': {None: None}}}}},
                     'n': {None: None}, 'y': {None: None}}}, 'b': {'a': {'r': {None: None, 'o': {'n': {None: None}}},
                     'n': {'y': {'a': {None: None}}}}}, 'r': {'a': {'b': {'a': {None: None}, None: None}}}}
-    token_path = f'{_me_parent}/tests/tokens.txt'
+    token_path = f'{_me_parent}/tokens.txt'
     #act
     actual_db = lib_search_sdk.load_db(token_path)
 
@@ -118,7 +119,7 @@ def test_load_db():
 
 def test_get_suggestions():
     #arrange
-    token_path = f'{_me_parent}/tests/tokens.txt'
+    token_path = f'{_me_parent}/tokens.txt'
     mdb = lib_search_sdk.load_db(token_path)
     prefix = 'ma'
     prefix_not_found = 'ly'

@@ -5,21 +5,20 @@ version: "3"
 
 vars:
   GREETING: |-
-    Usage: task prepub, task p              prepare up to date docs pages to push to github.io
-    You might as well do any step separately:
-    task build                              build the docs
-    task rename-site                        rename folder with pages
-    task purge-destination                  delete obsolete pages from local github.io repo
-    task move-site                          move folder with pages to github.io repo
+    Usage:
+    on local machine use 'task p' or 'task prepub' to get docs ready to push to github.io
+    for Jenkins-based CI CD use 'task build', 'task rename-site' and then 'task tar' to get a nice single-file artifact
 
 tasks:
   default:
+    desc: _
     cmds:
       - echo "{{.GREETING}}"
       - task -a
     silent: true
 
   build:
+    desc: build docs from markdown to html + css
     cmds:
       # feel free to edit and add paths if necessary
       - cd docs && mkdocs build
@@ -27,24 +26,33 @@ tasks:
       - test -d docs/site
 
   rename-site:
+    desc: 'rename docs folder to match the github.io repo structure'
     cmds:
       - mv ./docs/site docs/djfedos-search
     status:
       - test -d docs/djfedos-search
 
+  tar:
+    desc: 'for Jenkins-based CI CD: pack a folder to a single tar file to make it easy to archive as an artifact'
+    cmds:
+      - tar -cf docs.tar docs/djfedos-search
+
   purge-destination:
+    desc: 'for local machine only: purge local github.io repo before moving an up to date content into it'
     cmds:
       - rm -r ~/repos/djfedos.github.io/djfedos-search
     status:
       - test ! -d ~/repos/djfedos.github.io/djfedos-search
 
   move-site:
+    desc: 'for local machine only: move folder to github.io local repo'
     cmds:
       - mv ./docs/djfedos-search ~/repos/djfedos.github.io
     status:
       - test -d ~/repos/djfedos.github.io/djfedos-search
 
   prepub:
+    desc: 'for local machine only: prepare docs to be pushed to github.io'
     cmds:
       - task build
       - task rename-site
@@ -52,5 +60,6 @@ tasks:
       - task move-site
 
   p:
+    desc: 'a shorthand to prepub'
     cmds:
       - task prepub
