@@ -63,3 +63,33 @@ tasks:
     desc: 'a shorthand to prepub'
     cmds:
       - task prepub
+
+  # Dockerizing the web app
+
+  up-docker-net:
+    desc: create a docker network to test dockerized app
+    cmds:
+      - docker network create testnet
+
+  build-docker:
+    desc: build a djfedos-search web app docker
+    cmds:
+      - docker build -t djfedos-search-app .
+
+  run-docker:
+    desc: run a todo web app docker
+    cmds:
+      - docker run -itd -p 8000:8000 -p 18000:18000 --name djfedos-search --network testnet djfedos-search-app
+
+  init-token-db:
+    desc: load a deafult token list to suggest them
+    cmds:
+      - curl http://0.0.0.0:18000/load_db/tests?q=2466_tokens.txt
+
+  clean-up:
+    - docker rm djfedos-search
+    - docker image rm djfedos-search-app
+
+
+
+
